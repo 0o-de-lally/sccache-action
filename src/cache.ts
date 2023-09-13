@@ -15,7 +15,7 @@ const cargoLockHash = async (): Promise<string> => {
   const fileBuffer = await fs.promises.readFile(glob_match[0]);
   const hash = crypto.createHash('sha256');
   hash.update(fileBuffer);
-  const hash_string = hash.digest('hex');
+  const hash_string = hash.digest('hex').slice(0, 5).trim();
   console.log(hash_string);
   return hash_string;
 };
