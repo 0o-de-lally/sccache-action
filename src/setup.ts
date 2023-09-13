@@ -128,8 +128,7 @@ async function setup() {
     const cache_path = json.cache_location
       .split('Local disk: ')[1]
       .trim()
-      .slice(1, -1);
-    console.log(cache_path);
+      .slice(1, -1); // remove quotes
     core.exportVariable('SCCACHE_CACHE_DIR', cache_path);
 
     await pleaseRestore();

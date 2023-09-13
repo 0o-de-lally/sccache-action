@@ -48,16 +48,18 @@ export const pleaseSave = async () => {
 export const pleaseRestore = async () => {
   console.log('restore sccache files');
   const path = process.env.SCCACHE_CACHE_DIR;
-  console.log(path);
+  console.log(`restoring to: ${path}`);
   if (!path) {
     console.log(`no sccache dir found in SCCACHE_CACHE_DIR ${path}`);
     return;
   }
 
   const exact_restore = await makeKey();
-  console.log(exact_restore);
-  const alt_restore = [key, `${key}-`];
-  console.log(alt_restore);
+  const alt_restore = [key];
+  console.log(
+    `searching for exact cache: ${exact_restore}, or alternate matching: ${key}`
+  );
+
   // restores anything that matches `sccache` if the exact hash is not found
   await restoreCache([path], exact_restore, alt_restore)
     .then(r => {
