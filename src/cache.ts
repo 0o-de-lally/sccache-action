@@ -5,7 +5,7 @@ import * as glob from '@actions/glob';
 import fs from 'fs';
 import * as crypto from 'crypto';
 
-const key = 'sccache';
+const key = `sccache-${process.platform}`;
 
 const cargoLockHash = async (): Promise<string> => {
   // TODO: have an input for lockfile
