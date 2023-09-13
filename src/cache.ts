@@ -11,11 +11,13 @@ const cargoLockHash = async (): Promise<string> => {
   // TODO: have an input for lockfile
   // let lockfile = core.getInput('glob-to-lock');
   const glob_match = await globFiles(`**/Cargo.lock`);
-  console.log(glob_match);
+  // console.log(glob_match);
   const fileBuffer = await fs.promises.readFile(glob_match[0]);
   const hash = crypto.createHash('sha256');
   hash.update(fileBuffer);
-  return hash.digest('hex');
+  const hash_string = hash.digest('hex');
+  console.log(hash_string);
+  return hash_string;
 };
 
 async function globFiles(pattern: string): Promise<string[]> {
@@ -51,10 +53,18 @@ export const pleaseRestore = async () => {
     console.log(`no sccache dir found in SCCACHE_CACHE_DIR ${path}`);
     return;
   }
+
+  const exact_restore = await makeKey();
+  console.log(exact_restore);
+  const alt_restore = [key, `${key}-`];
   // restores anything that matches `sccache` if the exact hash is not found
-  await restoreCache([path], await makeKey(), [key]).then(r => {
+  await restoreCache([path], exact_restore, alt_restore).then(r => {
     if (!r) {
-      console.log(`no cache matching "${path}" to restore`);
+      console.log(
+        `no exising cache matching ${exact_restore} nor "${alt_restore}"`
+      );
+    } else {
+      console.log(`restoring cache: ${r}`);
     }
   });
 };
