@@ -125,7 +125,10 @@ async function setup() {
     });
     const json = JSON.parse(myOutput);
     console.log(`\n${json.cache_location}`);
-    const cache_path = json.cache_location.split(':')[1].trim().slice(1, -1);
+    const cache_path = json.cache_location
+      .split('Local disk: ')[1]
+      .trim()
+      .slice(1, -1);
     console.log(cache_path);
     core.exportVariable('SCCACHE_CACHE_DIR', cache_path);
 
