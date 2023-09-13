@@ -57,16 +57,19 @@ export const pleaseRestore = async () => {
   const exact_restore = await makeKey();
   console.log(exact_restore);
   const alt_restore = [key, `${key}-`];
+  console.log(alt_restore);
   // restores anything that matches `sccache` if the exact hash is not found
-  await restoreCache([path], exact_restore, alt_restore).then(r => {
-    if (!r) {
-      console.log(
-        `no exising cache matching ${exact_restore} nor "${alt_restore}"`
-      );
-    } else {
-      console.log(`restoring cache: ${r}`);
-    }
-  });
+  await restoreCache([path], exact_restore, alt_restore)
+    .then(r => {
+      if (!r) {
+        console.log(
+          `no exising cache matching ${exact_restore} nor "${alt_restore}"`
+        );
+      } else {
+        console.log(`restoring cache: ${r}`);
+      }
+    })
+    .catch(e => console.log(`err: ${e}`));
 };
 
 export const deduplicate = async () => {
