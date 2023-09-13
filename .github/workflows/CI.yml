@@ -80,9 +80,8 @@ jobs:
 
       - name: install any cargo
         shell: bash
-        run: |
-          echo $RUSTC_WRAPPER
-          cargo install hashbrown
+        working-directory: ./test-src
+        run: cargo build
 
 
 

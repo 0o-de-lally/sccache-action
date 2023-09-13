@@ -8,9 +8,11 @@ import * as crypto from 'crypto';
 const key = 'sccache';
 
 const cargoLockHash = async (): Promise<string> => {
-  const file_to_hash = await globFiles('**/*.lock');
-  console.log(file_to_hash);
-  const fileBuffer = await fs.promises.readFile(file_to_hash[0]);
+  // TODO: have an input for lockfile
+  // let lockfile = core.getInput('glob-to-lock');
+  const glob_match = await globFiles(`**/Cargo.lock`);
+  console.log(glob_match);
+  const fileBuffer = await fs.promises.readFile(glob_match[0]);
   const hash = crypto.createHash('sha256');
   hash.update(fileBuffer);
   return hash.digest('hex');
