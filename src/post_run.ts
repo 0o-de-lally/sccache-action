@@ -7,8 +7,9 @@ const postRun = async () => {
 
   const is_local = core.getInput('local', {required: false});
   if (is_local == 'true') {
-    await deduplicate();
+    // Commit Note: don't deduplicate
     await pleaseSave();
+
   }
 };
 
